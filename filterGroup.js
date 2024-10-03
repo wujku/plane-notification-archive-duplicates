@@ -1,5 +1,6 @@
 let isExtensionEnabled = false; // Variable to store the extension state
 let ACTION = 'archive';
+const REGEX = /^https:\/\/plane\.ageno\.work\/[^\/]+\/notifications\/$/;
 
 // Function to initialize the extension state
 function initializeExtensionState() {
@@ -20,20 +21,23 @@ function startObserving() {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.addedNodes.length && isExtensionEnabled) {
-                // filterGroups(); // Only call filterGroups if the extension is enabled
-                actionButton();
+                if (REGEX.test(window.location.href)) {
+                    actionButton();
+
+                    // Only call filterGroups if the extension is enabled
+                    // filterGroups();
+                }
             }
         });
     });
 
     observer.observe(document.body, {
-        childList: true,
-        subtree: true
+        childList: true, subtree: true
     });
 }
 
 function actionButton() {
-// Define the custom ID for the button
+    // Define the custom ID for the button
     const buttonId = 'plane-notification-extension-button';
 
     // Check if the button with the specified ID already exists
@@ -55,7 +59,7 @@ function actionButton() {
         // Append the button to the target element
         targetElement?.insertBefore(button, targetElement.firstChild);
 
-		button.addEventListener('click', () => {
+        button.addEventListener('click', () => {
             const userConfirmed = confirm('Are you sure you want to archive duplicates?'); // Confirmation dialog
 
             if (userConfirmed) {
@@ -109,7 +113,7 @@ function filterGroups() {
                         handleGroupAction(existingGroup);
                         seenTextsMap.set(textBeforeNbsp, group); // Keep the primary class group
                     } else {
-                    	handleGroupAction(group); // If both have the class, remove the duplicate
+                        handleGroupAction(group); // If both have the class, remove the duplicate
                     }
                 } else {
                     // If current group does not have the primary class and a group with the text exists, remove it
