@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Plane Notification - Archive Duplicates",
+  "version": "2.0",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage" // Permission to use local storage
+  ],
+  "background": {
+    "service_worker": "background.js" // Background script
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://plane.ageno.work/*/notifications/"],
+      "js": ["filterGroup.js"]
+    }
+  ]
+}
