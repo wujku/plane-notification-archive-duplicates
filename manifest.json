@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Plane Notification - Archive Duplicates",
-  "version": "2.0",
+  "version": "2.1",
   "permissions": [
     "activeTab",
     "contextMenus",
@@ -12,7 +12,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://plane.ageno.work/*/notifications/"],
+      "matches": ["https://plane.ageno.work/*/"],
       "js": ["filterGroup.js"]
     }
   ]
